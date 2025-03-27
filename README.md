@@ -2,34 +2,38 @@
 
 A project by **Riccardo Mantelli**
 
-This project bridges natural language input and physical computing systems using OpenAI GPT-4. Hosted on an AWS EC2 instance, it enables real-time interactions between human prompts and tangible outcomes via WebSocket and Serial communication.
+This project weaves together language, code, and tangible matter. At its core, it listens—waiting for a sentence, a breath, a gesture—then replies by moving electrons, lighting diodes, sounding alarms. It bridges the invisible and the material, turning spoken intention into action.
+
+Hosted on an AWS EC2 instance, it invites interaction between distant minds and local machines, through websockets and serial pulses.
 
 ---
 
 ## Features
 
-- **GPT-4 Prompt Translation**: Converts natural language into structured device commands
-- **REST API**: Direct `/command` and `/prompt` endpoints
-- **WebSocket Bridge**: Communicates with local or remote devices (e.g., ESP32)
-- **Serial Support**: Works seamlessly with Arduino via USB
-- **Live Relay**: Routes actions in real time from GPT to hardware interfaces
+- Translates natural language into structured, machine-readable intentions
+- REST API for direct instruction delivery
+- GPT-powered interpretation of loosely-formed human queries
+- WebSocket communication for spatial and real-time presence
+- Serial communication with microcontrollers (Arduino)
+- A system that listens deeply, and responds by shaping the world
 
 ---
 
 ## System Architecture
 
 ```
-[User Prompt] → /prompt → [Node.js + GPT-4] → { device, action } → WebSocket/Serial → [Arduino or ESP32]
+[Prompt or Gesture] → /prompt → [Bridge Server + GPT-4] → { device, action } → WebSocket / Serial → [Material Response]
 ```
 
 ---
 
 ## Server (AWS EC2)
 
-The server listens for two types of POST requests:
+The bridge listens.
+It exposes two surfaces:
 
 ### `/command`
-Sends a structured command directly to connected clients:
+For precise, controlled interaction.
 ```json
 {
   "device": "led1",
@@ -38,13 +42,13 @@ Sends a structured command directly to connected clients:
 ```
 
 ### `/prompt`
-Uses GPT-4 to interpret natural language prompts:
+For open-ended expressions.
 ```json
 {
-  "prompt": "Turn on the red LED"
+  "prompt": "Turn on the red light when the figure lifts its arms"
 }
 ```
-Generates a structured response and sends it to clients:
+It interprets. Translates. Then delivers:
 ```json
 {
   "device": "led rosso",
@@ -52,7 +56,7 @@ Generates a structured response and sends it to clients:
 }
 ```
 
-### Technologies Used
+### Stack
 - Node.js + Express
 - OpenAI GPT-4 API
 - socket.io
@@ -63,19 +67,19 @@ Generates a structured response and sends it to clients:
 
 ## Local Relay (macOS/Linux)
 
-The local client connects to the EC2 server via WebSocket and forwards received messages to an Arduino connected via USB serial.
+A quiet listener, the local client binds remote meaning to local matter.
+It connects via WebSocket to the server, then writes directly to a serial port.
 
 ```bash
 node local.js
 ```
 
-### Dependencies
+### Install dependencies
 ```bash
 npm install serialport socket.io-client
 ```
 
-### Configuration
-Edit `local.js`:
+### Set paths
 ```js
 const SERIAL_PORT_PATH = '/dev/tty.usbmodem1101';
 const WS_SERVER_URL = 'ws://<EC2_PUBLIC_IP>:4000';
@@ -85,29 +89,29 @@ const WS_SERVER_URL = 'ws://<EC2_PUBLIC_IP>:4000';
 
 ## Arduino Sketch
 
-The Arduino listens on serial for commands like:
-```json
-{"device":"led rosso","action":"turnOn"}
-```
-And responds accordingly:
+The microcontroller waits in a loop, attentive.
+It receives a line, parses intent, and acts.
 ```cpp
 if (cmd.indexOf("led rosso") > -1 && cmd.indexOf("turnOn") > -1) {
   digitalWrite(13, HIGH);
 }
 ```
 
+Commands arrive in stringified JSON, like wind carrying a whisper.
+
 ---
 
 ## Use Cases
-- Interactive spatial UX
-- Gesture-to-device bridges (e.g., with ml5.js body pose)
-- Performative installations
-- Tangible narrative systems
+
+- A gesture in space triggers a ritual sequence
+- A whisper to GPT becomes an architectural shift in light
+- A story unfolds through posture and silence
+- Machines as companions, not just tools
 
 ---
 
 ## Installation
-Refer to the [INSTALL.md](./INSTALL.md) file for a complete step-by-step deployment guide.
+For pragmatic steps and configuration, see the [INSTALL.md](./INSTALL.md).
 
 ---
 
@@ -116,6 +120,7 @@ MIT License
 
 ---
 
-For collaborations, custom builds, or workshops:
+For collaborations, custom adaptations, or poetic circuits:
 **riccardomantelli.com**  
 **111@11-11.io**
+
